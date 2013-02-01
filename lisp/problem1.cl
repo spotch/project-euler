@@ -1,18 +1,12 @@
-(defun is-multiple(base target)
-	(equal (mod target base) 0))
+(defun create-index(current ceiling fn)
+	(if (< current ceiling)
+		(if (funcall fn current)
+			(cons current (create-index (+ current 1) ceiling fn))
+			(create-index (+ current 1) ceiling fn))))
 
-(defun is-multiple-in(bases target)
-	(loop for base in bases do
-		(when (is-multiple base target) (return-from is-multiple-in t))))
+(defun is-multiple-of-three-five(subject)
+	(cond
+		((equal (mod subject 3) 0) t)
+		((equal (mod subject 5) 0) t)))
 
-(defun multiples(bases under-value)
-	(loop for iter from 1 to under-value
-		when (if
-			(equal (is-multiple-in bases iter) t) iter)
-		collect iter))
-
-(defun dump(values)
-	(loop for value in values do
-		(print value)))
-
-(print (apply '+ (multiples '(3 5) 999)))
+(print (apply #'+ (create-index 1 1000 'is-multiple-of-three-five)))
