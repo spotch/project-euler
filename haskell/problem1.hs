@@ -1,5 +1,8 @@
 inputRange = [1..999]
-divisibleByThreeOrFive x = mod x 3 == 0 || mod x 5 == 0
-sumNumbers range criteria = sum [x | x <- range, criteria x]
+modNumbers = [3, 5]
 
-main = print (sumNumbers inputRange divisibleByThreeOrFive)
+isNumberDivisibleByNumbers :: (Integral a) => a -> [a] -> Bool
+isNumberDivisibleByNumbers _ [] = False
+isNumberDivisibleByNumbers x (number:numbers) = mod x number == 0 || isNumberDivisibleByNumbers x numbers
+
+main = print (sum [x | x <- inputRange, isNumberDivisibleByNumbers x modNumbers])
